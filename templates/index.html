@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Планувальник подій</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>📅 Планувальник подій</h1>
+
+    <form method="POST" class="event-form">
+        <input type="text" name="title" placeholder="Назва події" required>
+
+        <input type="date" name="date">
+        <input type="time" name="time">
+
+        <select name="priority">
+            <option value="Низький">Низький</option>
+            <option value="Середній">Середній</option>
+            <option value="Високий">Високий</option>
+        </select>
+
+        <button type="submit">Додати</button>
+    </form>
+
+    <ul class="event-list">
+        {% for event in events %}
+        <li class="event-item priority-{{ event.priority }}">
+            <div>
+                <strong>{{ event.title }}</strong><br>
+                📆 {{ event.date }} ⏰ {{ event.time }}<br>
+                ⚡ {{ event.priority }}
+            </div>
+
+            <a href="{{ url_for('delete', event_id=event.id) }}" class="delete-btn">❌</a>
+        </li>
+        {% else %}
+        <p class="empty">Подій ще немає</p>
+        {% endfor %}
+    </ul>
+</div>
+
+</body>
+</html>
